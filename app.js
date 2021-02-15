@@ -46,18 +46,27 @@ const callbackDelServidor = (req, res) => {
         if(headers['content-type'] === 'application/json') {
             buffer = JSON.parse(buffer);
         }
+        // revisa si tiene subrutas
+
+        if (rutaLimpia.indexOf('/')> -1) {
+            //separar rutas
+            var [rutaPrincipal, indice] = rutaLimpia.split('/');
+        }
         // 3.5 ordenar la data
         const data = {
-            ruta: rutaLimpia,
+            indice,
+            ruta: rutaPrincipal || rutaLimpia,
             query,
             metodo,
             headers,
             payload: buffer
         };
+
+        console.log({data});
         // 3.6 elegir el manejador de la respuesta //handler
         let handler;
-        if(rutaLimpia && enrutador[rutaLimpia] && enrutador[rutaLimpia][metodo]) {
-            handler = enrutador[rutaLimpia][metodo];
+        if(data.ruta && enrutador[data.ruta] && enrutador[data.ruta][metodo]) {
+            handler = enrutador[data.ruta][metodo];
         } else {
             handler = enrutador.noEncontrado;
         };
@@ -80,6 +89,14 @@ const enrutador = {
     },
     mascotas:{
         get: (data, callback) => {
+            if(data.indice) {
+                if(recursos.mascotas[data.indice]) {
+                    return callback(200, recursos.mascotas[data.indice]);
+                }
+                return callback(404, {
+                    mensaje:`mascota con indice${data.indice} no encontrada`,
+                });
+            }
             callback(200, recursos.mascotas);
         },
         post: (data, callback) => {
