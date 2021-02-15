@@ -2,6 +2,17 @@ const http = require('http');
 const url = require('url');
 const StringDecoder = require('string_decoder').StringDecoder;
 
+let recursos = {
+    mascotas: [
+        {tipo: 'Perro', nombre: 'Firulais', propietario:'Cesar'},
+        {tipo: 'Perro', nombre: 'Firulais', propietario:'Cesar'},
+        {tipo: 'Perro', nombre: 'Firulais', propietario:'Cesar'},
+        {tipo: 'Perro', nombre: 'Firulais', propietario:'Cesar'},
+        {tipo: 'Perro', nombre: 'Firulais', propietario:'Cesar'}
+        
+    ],
+}
+
 const callbackDelServidor = (req, res) => {
 
     // 1. obtener url desde el objeto request
@@ -63,8 +74,8 @@ const enrutador = {
     ruta: (data, callback) => {
         callback(200, {mensaje: 'esta es la ruta desde enrutador'});
     },
-    usuarios: (data, callback) => {
-        callback(200,[{nombre: 'usuario1'}, {nombre: 'usuario2'}]);
+    mascotas: (data, callback) => {
+        callback(200, recursos.mascotas);
     },
     noEncontrado: (data, callback) => {
         callback(404,{mensaje: 'no encontrado enrutador'});
