@@ -52,8 +52,8 @@ const callbackDelServidor = (req, res) => {
         };
         // 3.6 elegir el manejador de la respuesta //handler
         let handler;
-        if(rutaLimpia && enrutador[rutaLimpia]) {
-            handler = enrutador[rutaLimpia];
+        if(rutaLimpia && enrutador[rutaLimpia] && enrutador[rutaLimpia][metodo]) {
+            handler = enrutador[rutaLimpia][metodo];
         } else {
             handler = enrutador.noEncontrado;
         };
@@ -74,13 +74,15 @@ const enrutador = {
     ruta: (data, callback) => {
         callback(200, {mensaje: 'esta es la ruta desde enrutador'});
     },
-    mascotas: (data, callback) => {
-        callback(200, recursos.mascotas);
+    mascotas:{
+        get: (data, callback) => {
+            callback(200, recursos.mascotas);
+        },
     },
     noEncontrado: (data, callback) => {
         callback(404,{mensaje: 'no encontrado enrutador'});
     }
-}
+};
 
 const server = http.createServer(callbackDelServidor);
 
