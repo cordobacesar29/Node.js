@@ -42,6 +42,10 @@ const callbackDelServidor = (req, res) => {
     // 3.4.2 termina de acumular datos y decoder finaliza
     req.on('end', () => {
         buffer += decoder.end();
+
+        if(headers['content-type'] === 'application/json') {
+            buffer = JSON.parse(buffer);
+        }
         // 3.5 ordenar la data
         const data = {
             ruta: rutaLimpia,
@@ -78,6 +82,10 @@ const enrutador = {
         get: (data, callback) => {
             callback(200, recursos.mascotas);
         },
+        post: (data, callback) => {
+            recursos.mascotas.push(data.payload);
+            callback(201, data.payload);            
+        }
     },
     noEncontrado: (data, callback) => {
         callback(404,{mensaje: 'no encontrado enrutador'});
