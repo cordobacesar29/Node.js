@@ -15,5 +15,15 @@ module.exports = {
         {nombre: 'Alexandra', Apellido:'Pérez', Teléfono: '252696941'},
         {nombre: 'Ayelen', Apellido:'Pérez', Teléfono: '0115223448'},
         {nombre: 'Cesar', Apellido:'ura', Teléfono: '381156546'}
+    ],
+    consultas :[
+        {
+            mascota: 0,
+            veterinaria:0,
+            fechaCreacion: new Date(),
+            fechaEdicion: new Date(),
+            historia: '',
+            diagnostico: ''
+        },
     ]
 };
